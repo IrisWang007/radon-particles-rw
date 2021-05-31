@@ -23,7 +23,7 @@ node_types:
     capabilities:
       host:
         occurrences: [ 1, UNBOUNDED ]
-        valid_source_types: [ radon.nodes.azure.AzureResourceGroup, radon.nodes.azure.AzureStorageAccount, radon.nodes.azure.AzureBlobStorageContainer, radon.nodes.azure.AzureCosmosDB, radon.nodes.azure.AzureFunction, radon.nodes.azure.AzureResourceTriggeredFunction, radon.nodes.azure.AzureHttpTriggeredFunction ]
+        valid_source_types: [ radon.nodes.azure.AzureResourceGroup, radon.nodes.azure.AzureStorageAccount, radon.nodes.azure.AzureBlobStorageContainer, radon.nodes.azure.AzureCosmosDB, radon.nodes.azure.AzureFunction, radon.nodes.azure.AzureResourceTriggeredFunction, radon.nodes.azure.AzureHttpTriggeredFunction, radon.nodes.azure.AzureFunction.Local ]
         type: tosca.capabilities.Container
     interfaces:
       Standard:
