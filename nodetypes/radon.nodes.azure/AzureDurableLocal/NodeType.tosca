@@ -22,12 +22,7 @@ node_types:
         description: The identifier for Azure region in which resources are/will be deployed
       port:
         type: integer
-        required: ture
-    capabilities:
-      connect:
-        occurrences: [1, UNBOUNDED]
-        valid_source_types: [radon.nodes.azure.AzureFunctionLocal]
-  description: The port for local deployment
+        required: true
       function_name:
         type: string
         required: true
@@ -37,6 +32,11 @@ node_types:
           capability: tosca.capabilities.Container
           node: radon.nodes.azure.AzurePlatform
           relationship: tosca.relationships.HostedOn
+          occurrences: [ 1, 1 ]
+      - connect:
+          capability: tosca.capabilities.Container
+          node: radon.nodes.azure.AzureDurableLocal
+          relationship: radon.relationships.azure.ConnectDurableLocal
           occurrences: [ 1, 1 ]
     interfaces:
       Standard:
