@@ -22,8 +22,7 @@ node_types:
         description: The identifier for Azure region in which resources are/will be deployed
       port:
         type: integer
-        required: ture
-	description: The port for local deployment
+        required: true
       function_name:
         type: string
         required: true
