@@ -1,0 +1,31 @@
+---
+- hosts: all
+  tasks:
+    # Register env
+    - name: load json
+      include_vars:
+        file: input_function.json
+        name: imported_var
+    - debug:
+        var: imported_var
+
+    - name: add more values
+      set_fact:
+        imported_var: "{{ imported_var | default([]) | combine({ {{ function_name }}: {{ port }}) }}"
+    - debug:
+        var: imported_var
+
+    - name: write var to file
+      copy:
+        content: "{{ imported_var | to_nice_json }}"
+        dest: input_function.json
+
+    #   vars:
+    #     ansible_python_interpreter: /usr/local/bin/python
+    #   shell: export "{{ function_name}}"="{{ port }}"
+    #   # environment:
+    #   #   function_name: "{{ port }}"
+    #   register: shellout
+
+    # - debug:
+    #     var: shellout.stdout

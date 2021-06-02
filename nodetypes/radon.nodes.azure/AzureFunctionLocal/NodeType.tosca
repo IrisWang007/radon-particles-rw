@@ -37,7 +37,7 @@ node_types:
       - connect:
           capability: tosca.capabilities.Container
           node: radon.nodes.azure.AzureDurableOrchestratorLocal
-          relationship: radon.relationship.azure.AzureDurableLocal
+          relationship: radon.relationships.azure.ConnectDurableOrchestratorLocal
           occurrences: [ 1, 1 ]
     interfaces:
       Standard:
