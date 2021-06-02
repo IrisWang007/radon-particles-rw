@@ -1,0 +1,36 @@
+tosca_definitions_version: tosca_simple_yaml_1_3
+
+metadata:
+  targetNamespace: "example.org.tosca.servicetemplates"
+topology_template:
+  node_templates:
+    AzureFunctionLocal_0:
+      type: radon.nodes.azure.AzureFunctionLocal
+      metadata:
+        x: "502"
+        y: "137"
+        displayName: "AzureFunctionLocal"
+      properties:
+        storage_account_name: "myappchain"
+        port: 7080
+        function_name: "text_printer"
+        resource_group_name: "myappchain"
+        region: "uksouth"
+      requirements:
+        - host:
+            node: AzurePlatform_0
+            relationship: con_HostedOn_0
+            capability: host
+    AzurePlatform_0:
+      type: radon.nodes.azure.AzurePlatform
+      metadata:
+        x: "736"
+        y: "274"
+        displayName: "AzurePlatform"
+      properties:
+        password: "739088454aA"
+        region: "uksouth"
+        username: "runanwang@outlook.com"
+  relationship_templates:
+    con_HostedOn_0:
+      type: tosca.relationships.HostedOn
