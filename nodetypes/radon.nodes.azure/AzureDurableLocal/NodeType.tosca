@@ -35,16 +35,11 @@ node_types:
         type: string
         required: true
         decription: The name of output container
-    requirements:
-      - host:
-          capability: tosca.capabilities.Container
-          node: radon.nodes.azure.AzurePlatform
-          relationship: tosca.relationships.HostedOn
-          occurrences: [ 1, 1 ]
     capabilities:
-      connect:
+      host:
         occurrences: [ 1, UNBOUNDED ]
-        valid_source_types: [ radon.nodes.azure.AzureFunctionLocal]
+        valid_source_types:  [ radon.nodes.azure.AzureFunctionLocal ]
+        type: tosca.capabilities.Container
 
     interfaces:
       Standard:
