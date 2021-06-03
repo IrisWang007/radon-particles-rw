@@ -27,17 +27,25 @@ node_types:
         type: string
         required: true
         description: The Azure function name
+      container_in_name:
+        type: string
+        required: true
+        description: The name of input container
+      container_out_name:
+        type: string
+        required: true
+        decription: The name of output container
     requirements:
       - host:
           capability: tosca.capabilities.Container
           node: radon.nodes.azure.AzurePlatform
           relationship: tosca.relationships.HostedOn
           occurrences: [ 1, 1 ]
-      - connect:
-          capability: tosca.capabilities.Container
-          node: radon.nodes.azure.AzureDurableLocal
-          relationship: radon.relationships.azure.ConnectDurableLocal
-          occurrences: [ 1, 1 ]
+    capabilities:
+      connect:
+        occurrences: [ 1, UNBOUNDED ]
+        valid_source_types: [ radon.nodes.azure.AzureFunctionLocal]
+
     interfaces:
       Standard:
         type: tosca.interfaces.node.lifecycle.Standard
@@ -67,11 +75,13 @@ node_types:
             required: true
             description: The Azure function app OS type
             default: { get_property: [ SELF, port ] }
-          runtime_type:
+          container_in_name:
             type: string
-            required: true
-            description: The Azure function runtime type
-            default: { get_property: [ SELF, runtime_type ] }
+            default: { get_property: [ SELF, container_in_name ] }
+          container_out_name:
+            type: string
+            default: { get_property: [ SELF, container_out_name ] }
+            
         operations:
           create:
             implementation:

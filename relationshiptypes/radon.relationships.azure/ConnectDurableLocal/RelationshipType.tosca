@@ -16,11 +16,11 @@ relationship_types:
               function_name:
                 type: string
                 required: true
-                default: { get_attribute: [ function_name ] }
+                default: { get_property: [ function_name ] }
               port:
                 type: string
                 required: true
-                default: { get_attribute: [ port ] }
+                default: { get_property: [ port ] }
             implementation:
               primary: connect.yml
               timeout: 0

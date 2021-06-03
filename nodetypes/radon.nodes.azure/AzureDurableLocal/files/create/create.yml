@@ -11,6 +11,19 @@
   #             --location {{ region }}
   #             --sku Standard_RAGRS"
   tasks:
+    - name: register container_in
+      shell: "echo $CONTAINER_IN"
+      environment:
+        CONTAINER_IN = {{ container_in_name }}
+      register: CONTAINER_IN
+  tasks:
+    - name: register container_out
+      shell: "echo $CONTAINER_out"
+      environment:
+        CONTAINER_OUT = {{ container_out_name }}
+      register: CONTAINER_OUT
+      
+  tasks:
     - name: go to the relative directory
       shell: "cd {{function_name}}"
          
