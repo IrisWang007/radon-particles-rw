@@ -24,7 +24,7 @@ node_types:
     capabilities:
       connect:
         occurrences: [ 1, UNBOUNDED ]
-        valid_source_types: [ radon.nodes.azure.AzureFunctionLocal ]
+        valid_source_types: [ radon.nodes.azure.AzureHttpFunctionLocal ]
         type: tosca.capabilities.Container
     interfaces:
       Standard:
