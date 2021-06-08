@@ -34,8 +34,8 @@ node_types:
           occurrences: [ 1, 1 ]
       - connect:
           capability: tosca.capabilities.Container
-          node: radon.nodes.azure.AzureDurableLocal
-          relationship: radon.relationships.azure.ConnectDurableLocal
+          node: radon.nodes.azure.AzureDurableOrchestrator
+          relationship: radon.relationships.azure.ConnectToDurable
           occurrences: [ 1, 1 ]
     interfaces:
       Standard:
