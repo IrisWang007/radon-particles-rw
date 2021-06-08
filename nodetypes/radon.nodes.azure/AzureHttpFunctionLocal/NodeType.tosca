@@ -1,0 +1,87 @@
+tosca_definitions_version: tosca_simple_yaml_1_3
+
+node_types:
+  radon.nodes.azure.AzureFunctionLocal:
+    derived_from: radon.nodes.abstract.Function
+    metadata:
+      targetNamespace: "radon.nodes.azure"
+      abstract: "false"
+      final: "false"
+    properties:
+      storage_account_name:
+        type: string
+        description: The name of the existing Azure storage account
+      port:
+        type: integer
+      function_name:
+        type: string
+        description: The Azure function name
+      resource_group_name:
+        type: string
+        description: The name of the existing Azure resource group
+      region:
+        type: string
+        description: The identifier for Azure region in which resources are/will be deployed
+      path:
+        type: string
+      order:
+        type: integer
+    requirements:
+      - host:
+          capability: tosca.capabilities.Container
+          node: radon.nodes.azure.AzurePlatform
+          relationship: tosca.relationships.HostedOn
+          occurrences: [ 1, 1 ]
+      - connect:
+          capability: tosca.capabilities.Container
+          node: radon.nodes.azure.AzureDurableLocal
+          relationship: radon.relationships.azure.ConnectDurableLocal
+          occurrences: [ 1, 1 ]
+    interfaces:
+      Standard:
+        type: tosca.interfaces.node.lifecycle.Standard
+        inputs:
+          storage_account_name:
+            type: string
+            description: The name of the existing Azure storage account
+            required: false
+            default: { get_property: [ SELF, storage_account_name ] }
+          function_name:
+            type: string
+            description: The version of the Azure function app
+            required: false
+            default: { get_property: [ SELF, function_name ] }
+          port:
+            type: integer
+            description: The Azure function app OS type
+            required: false
+            default: { get_property: [ SELF, port ] }
+          resource_group_name:
+            type: string
+            description: The name of the existing Azure resource group
+            required: false
+            default: { get_property: [ SELF, resource_group_name ] }
+          region:
+            type: string
+            description: The identifier for Azure region in which resources are/will be deployed
+            required: false
+            default: { get_property: [ SELF, region ] }
+          path:
+            type: string
+            required: true
+            default: { get_property: [ SELF, path ] }
+          order:
+            type: integer
+            required: true
+            default: { get_property: [ SELF, order ]}
+        operations:
+          create:
+            description: The standard create operation
+            implementation:
+              primary: create
+              timeout: 0
+    artifacts:
+      create:
+        type: radon.artifacts.Ansible
+        description: The YAML artifact for creation
+        file: create.yml
