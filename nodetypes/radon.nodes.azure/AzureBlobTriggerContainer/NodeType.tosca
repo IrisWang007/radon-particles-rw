@@ -1,0 +1,74 @@
+tosca_definitions_version: tosca_simple_yaml_1_3
+
+node_types:
+  radon.nodes.azure.AzureBlobTriggerContainer:
+    derived_from: radon.nodes.azure.AzureBlobStorageContainer
+    metadata:
+      targetNamespace: "radon.nodes.azure"
+      abstract: "false"
+      final: "false"
+    properties:
+      container_name:
+        type: string
+        required: true
+        description: The name of the new Azure container
+      resource_group_name:
+        type: string
+        required: true
+        description: The name of the existing Azure resource group
+      storage_account_name:
+        type: string
+        required: true
+        description: The name of the existing Azure storage account
+    requirements:
+      - host:
+          capability: tosca.capabilities.Container
+          node: radon.nodes.azure.AzurePlatform
+          relationship: tosca.relationships.HostedOn
+          occurrences: [ 1, 1 ]
+      - invoker:
+          capability: radon.capabilities.Invocable
+          node: radon.nodes.abstract.Function
+          relationship: radon.relationships.azure.AzureContainerTriggers
+          occurrences: [ 0, UNBOUNDED ]
+      - trigger:
+          capability: tosca.capabilities.Container
+          node: radon.nodes.azure.AzureDurableOrchestrator
+          relationship: radon.relationships.azure.AzureBlobTriggerDurable
+    interfaces:
+      Standard:
+        type: tosca.interfaces.node.lifecycle.Standard
+        inputs:
+          container_name:
+            type: string
+            required: true
+            description: The name of the new Azure container
+            default: { get_property: [ SELF, container_name ] }
+          resource_group_name:
+            type: string
+            required: true
+            description: The name of the existing Azure resource group
+            default: { get_property: [ SELF, resource_group_name ] }
+          storage_account_name:
+            type: string
+            required: true
+            description: The name of the existing Azure storage account
+            default: { get_property: [ SELF, storage_account_name ] }
+          public_access:
+            type: string
+            required: false
+            description: The container's level of public access
+            default: { get_property: [ SELF, public_access ] }
+        operations:
+          create:
+            description: The standard create operation
+            implementation:
+              primary: create_azcli
+              timeout: 0
+         
+    artifacts:
+      create:
+        type: radon.artifacts.Ansible
+        description: The YAML artifact for creation
+        file: create_azcli.yml
+      

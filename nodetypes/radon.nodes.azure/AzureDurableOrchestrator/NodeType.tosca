@@ -8,48 +8,68 @@ node_types:
       abstract: "false"
       final: "false"
     properties:
-      port:
-        type: integer
+      storage_account_name:
+        type: string
+      resource_group_name:
+        type: string
+      runtime_verison:
+        type: string
+      function_app_name:
+        type: string
       function_name:
         type: string
-        description: The Azure function name
-      container_in_name:
+      function_verison:
+        type: integer
+        default: 2
+        constraints:
+          - valid_values: [ 2,3 ]
+      os_type:
         type: string
-      container_out_name:
+      zip_file:
         type: string
-      name:
+      runtime_type:
         type: string
-      path:
-        type: string
+        default: python
     capabilities:
       connect:
         occurrences: [ 1, UNBOUNDED ]
         valid_source_types: [ radon.nodes.azure.AzureHttpFunctionLocal ]
         type: tosca.capabilities.Container
+      trigger:
+        occurrences: [ 1, UNBOUNDED ]
+        type: tosca.capabilities.Container
+        valid_source_types: [radon.nodes.azure.AzureBlobTriggerContainer]
     interfaces:
       Standard:
         type: tosca.interfaces.node.lifecycle.Standard
         inputs:
-          port:
-            type: integer
-            required: true
-            default: { get_property: [ SELF, port ] }
-          container_in_name:
+          storage_account_name:
             type: string
-            required: true
-            default: { get_property: [ SELF, container_in_name ] }
+            default: { get_property: [ SELF, storage_account_name ] }
+          resource_group_name:
+            type: string
+            default: { get_property: [ SELF, resource_group_name ] }
+          runtime_verison:
+            type: string
+            default: { get_property: [ SELF, runtime_verison ] }
+          function_app_name:
+            type: string
+            default: { get_property: [ SELF, function_app_name ] }
           function_name:
             type: string
-            required: true
             default: { get_property: [ SELF, function_name ] }
-          container_out_name:
+          function_verison:
+            type: integer
+            default: { get_property: [ SELF, function_verison ] }
+          zip_file:
             type: string
-            required: true
-            default: { get_property: [ SELF, container_out_name ] }
-          path:
+            default: { get_property: [ SELF, zip_file ] }
+          runtime_type:
             type: string
-            required: true
-            default:  { get_property: [ SELF, path ] }
+            default: { get_property: [ SELF, runtime_type ] }
+          os_type:
+            type: string
+            default: { get_property: [ SELF, os_type ] }
         operations:
           stop:
             description: The standard stop operation
