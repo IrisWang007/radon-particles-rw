@@ -13,26 +13,30 @@ relationship_types:
         operations:
           post_configure_source:
             inputs:
-              port:
+              resource_group_name:
                 type: string
                 required: true
-                default: { get_property: [ SOURCE, port ] }
+                default: { get_property: [ SOURCE, resource_group_name ] }
               function_name:
                 type: string
                 required: true
                 default: { get_property: [ SOURCE, function_name ] }
+              function_app_name:
+                type: string
+                required: true
+                default: { get_property: [ SOURCE, function_app_name ] }
+              targer_resource_group_name:
+                type: string
+                required: true
+                default: { get_property: [ TARGET, resource_group_name ] }
+              target_function_app_name:
+                type: string
+                required: true
+                default: { get_property: [ TARGET, function_app_name ] }
               order:
                 type: integer
                 required: true
-                default: { get_property: [SOURCE, order ]}
-              target_path:
-                type: string
-                required: true
-                default: { get_property: [ TARGET, path ]}
-              target_function_name:
-                type: string
-                required: true
-                default: { get_property: [ TARGET, function_name] }
+                default: { get_property: [ SOURCE, order ] }
             implementation:
               primary: connect.yml
               timeout: 0
