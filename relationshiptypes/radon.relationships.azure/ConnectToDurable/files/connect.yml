@@ -2,7 +2,7 @@
 - hosts: all
   vars:
     name: "function"
-  task:
+  tasks:
     - name: Get functio url from azure function
       shell: "echo $(az functionapp function show -g {{ resource_group_name}} -n {{function_app_name}} --function-name {{function_name}} --query \"invokeUrlTemplate\")"
       register: azure_function_url

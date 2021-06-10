@@ -10,16 +10,13 @@ node_types:
     properties:
       container_name:
         type: string
-        required: true
         description: The name of the new Azure container
-      resource_group_name:
-        type: string
-        required: true
-        description: The name of the existing Azure resource group
       storage_account_name:
         type: string
-        required: true
         description: The name of the existing Azure storage account
+      resource_group_name:
+        type: string
+        description: The name of the existing Azure resource group
     requirements:
       - host:
           capability: tosca.capabilities.Container
@@ -35,30 +32,31 @@ node_types:
           capability: tosca.capabilities.Container
           node: radon.nodes.azure.AzureDurableOrchestrator
           relationship: radon.relationships.azure.AzureBlobTriggerDurable
+          occurrences: [ 1, 1 ]
     interfaces:
       Standard:
         type: tosca.interfaces.node.lifecycle.Standard
         inputs:
-          container_name:
-            type: string
-            required: true
-            description: The name of the new Azure container
-            default: { get_property: [ SELF, container_name ] }
-          resource_group_name:
-            type: string
-            required: true
-            description: The name of the existing Azure resource group
-            default: { get_property: [ SELF, resource_group_name ] }
-          storage_account_name:
-            type: string
-            required: true
-            description: The name of the existing Azure storage account
-            default: { get_property: [ SELF, storage_account_name ] }
           public_access:
             type: string
-            required: false
             description: The container's level of public access
+            required: false
             default: { get_property: [ SELF, public_access ] }
+          container_name:
+            type: string
+            description: The name of the new Azure container
+            required: true
+            default: { get_property: [ SELF, container_name ] }
+          storage_account_name:
+            type: string
+            description: The name of the existing Azure storage account
+            required: true
+            default: { get_property: [ SELF, storage_account_name ] }
+          resource_group_name:
+            type: string
+            description: The name of the existing Azure resource group
+            required: true
+            default: { get_property: [ SELF, resource_group_name ] }
         operations:
           create:
             description: The standard create operation

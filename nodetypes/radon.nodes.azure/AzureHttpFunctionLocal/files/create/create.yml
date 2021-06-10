@@ -41,18 +41,17 @@
             --name {{ function_app_name }} \
             --resource-group {{ resource_group_name }} \
             --storage-account {{ storage_account_name }} \
-            --consumption-plan-location {{ region }} \
+            --consumption-plan-location uksouth \
             --os-type {{ os_type }} \
             --runtime {{ runtime_type }} \
             --runtime-version {{ runtime_version }} \
-            --functions-version {{ functions_version }}"
+            --functions-version {{ function_version }}"
 
     - name: Deploy function to Azure function app (using the kudu zip push deployment)
       shell: "az functionapp deployment source config-zip \
               --name {{ function_app_name }} \
               --resource-group {{ resource_group_name }} \
-              --src {{ zip_file }} \
-              --build-remote {{ build_remote }} \"
+              --src {{ zip_file }}"
               
     - name: Register Blob as settings
       shell: "echo $(az storage account show-connection-string -g {{ resource_group_name }} -n {{ storage_account_name }})"

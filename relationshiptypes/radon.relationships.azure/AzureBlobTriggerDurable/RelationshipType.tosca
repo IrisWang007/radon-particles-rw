@@ -17,6 +17,14 @@ relationship_types:
                 type: string
                 required: true
                 default: { get_property: [ SOURCE, storage_account_name ] }
+              container_name:
+                type: integer
+                required: true
+                default: { get_property: [ SOURCE, container_name ] }
+              function_app_name:
+                type: string
+                required: true
+                default: { get_property: [ TARGET, function_app_name ] }
               resource_group_name:
                 type: string
                 required: true
@@ -24,15 +32,7 @@ relationship_types:
               target_resource_group_name:
                 type: string
                 required: true
-                default: { get_property: [ SOURCE, target_resource_group_name ] }
-              function_app_name:
-                type: string
-                required: true
-                default: { get_property: [ TARGET, function_app_name ] }
-              container_name:
-                type: integer
-                required: true
-                default: { get_property: [ SOURCE, container_name ] }
+                default: { get_property: [ SOURCE, resource_group_name ] }
             implementation:
               primary: connect.yml
               timeout: 0

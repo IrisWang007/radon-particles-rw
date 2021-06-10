@@ -16,5 +16,6 @@
       
     - name: Set application settings for storage credentials
       command: "az functionapp config appsettings set -g {{ target_resource_group_name }}  -n {{ function_app_name }} --settings myappchain_STORAGE={{ conn_str_dict_item.results[0].item.value }}"
-   - name: set trigger event path
-     command: "az functionapp config appsettings set -g {{ target_resource_group_name }}  -n {{ function_app_name }} --settings AzureWebJobsEventHubPath={{ container_name }}/{{ name }}"
+      
+    - name: set trigger event path
+      command: "az functionapp config appsettings set -g {{ target_resource_group_name }}  -n {{ function_app_name }} --settings AzureWebJobsEventHubPath={{ container_name }}/{{ name }}"
