@@ -42,3 +42,12 @@
           arn: "{{ alias_info.alias_arn }}"
           role_arn: "{{ role_arn }}"
           region: "{{ aws_region }}"
+          
+          
+    - name: Enable AWS X-Ray
+      command: >-
+        aws lambda update-function-configuration
+          --function-name {{ function_name }}
+          --tracing-config Mode=Active
+          
+          

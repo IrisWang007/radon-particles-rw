@@ -1,8 +1,8 @@
 tosca_definitions_version: tosca_simple_yaml_1_3
 
 node_types:
-  radon.nodes.azure.AzureDurableOrchestrator:
-    derived_from: tosca.nodes.Root
+  radon.nodes.azure.AzureHttpFunction:
+    derived_from: radon.nodes.abstract.Function
     metadata:
       targetNamespace: "radon.nodes.azure"
       abstract: "false"
@@ -21,6 +21,8 @@ node_types:
         type: string
       resource_group_name:
         type: string
+      order:
+        type: integer
       zip_file:
         type: string
       runtime_type:
@@ -31,15 +33,17 @@ node_types:
         default: 2
         constraints:
           - valid_values: [ 2, 3 ]
-    capabilities:
-      trigger:
-        occurrences: [ 1, UNBOUNDED ]
-        valid_source_types: [ radon.nodes.azure.AzureBlobTriggerContainer ]
-        type: tosca.capabilities.Container
-      connect:
-        occurrences: [ 1, UNBOUNDED ]
-        valid_source_types: [ radon.nodes.azure.AzureHttpFunction ]
-        type: tosca.capabilities.Container
+    requirements:
+      - host:
+          capability: tosca.capabilities.Container
+          node: radon.nodes.azure.AzurePlatform
+          relationship: tosca.relationships.HostedOn
+          occurrences: [ 1, 1 ]
+      - connect:
+          capability: tosca.capabilities.Container
+          node: radon.nodes.azure.AzureDurableOrchestrator
+          relationship: radon.relationships.azure.ConnectToDurable
+          occurrences: [ 1, 1 ]
     interfaces:
       Standard:
         type: tosca.interfaces.node.lifecycle.Standard
@@ -80,21 +84,17 @@ node_types:
             type: integer
             required: true
             default: { get_property: [ SELF, function_version ] }
+          order:
+            type: integer
+            default: { get_property: [ SELF, order ] }
         operations:
-          stop:
-            description: The standard stop operation
-          start:
-            description: The standard start operation
           create:
             description: The standard create operation
             implementation:
               primary: create
               timeout: 0
-          configure:
-            description: The standard configure operation
-          delete:
-            description: The standard delete operation
     artifacts:
       create:
         type: radon.artifacts.Ansible
+        description: The YAML artifact for creation
         file: create.yml

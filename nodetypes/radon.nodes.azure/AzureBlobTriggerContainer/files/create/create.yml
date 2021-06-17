@@ -3,7 +3,6 @@
   gather_facts: false
   tasks:
     - name: Create a new Azure BLOB storage container
-      azure_rm_storageblob:
-        container: "{{ container_name }}"
-        resource_group: "{{ resource_group_name }}"
-        storage_account_name: "{{ storage_account_name }}"
+      shell: "az storage container create \
+    --account-name {{ storage_account_name }} \
+    --name {{ container_name }}"

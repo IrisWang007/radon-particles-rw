@@ -1,4 +1,4 @@
----
+#---
 #- hosts: all
 ##  gather_facts: false
 ##  # tasks:
@@ -32,7 +32,7 @@
 ##    #           --src {{ zip_file }} \
 ##    #           --build-remote {{ build_remote }} \
 ##    #           --timeout {{ timeout }}"
-#---
+---
 - hosts: all
   gather_facts: false
   tasks:

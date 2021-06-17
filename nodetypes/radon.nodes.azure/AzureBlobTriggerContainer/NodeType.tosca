@@ -61,12 +61,10 @@ node_types:
           create:
             description: The standard create operation
             implementation:
-              primary: create_azcli
+              primary: create
               timeout: 0
-         
     artifacts:
       create:
         type: radon.artifacts.Ansible
         description: The YAML artifact for creation
-        file: create_azcli.yml
-      
+        file: create.yml
